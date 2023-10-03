@@ -1,13 +1,14 @@
-package jensostertag.pushserver.events;
+package jensostertag.pushserver.event.websocket;
 
+import jensostertag.pushserver.event.Event;
 import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.objects.WebSocketChannel;
 
-public class ClientUnsubscribeEvent {
+public class ClientSubscribeEvent extends Event {
     private final Client _client;
     private final WebSocketChannel _webSocketChannel;
 
-    public ClientUnsubscribeEvent(Client client, WebSocketChannel webSocketChannel) {
+    public ClientSubscribeEvent(Client client, WebSocketChannel webSocketChannel) {
         this._client = client;
         this._webSocketChannel = webSocketChannel;
     }

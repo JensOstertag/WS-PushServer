@@ -44,7 +44,7 @@ public class MessageValidator {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(jsonString);
 
-            return schemaFactory.getSchema(schemaInputStream).validate(jsonNode).size() == 0;
+            return schemaFactory.getSchema(schemaInputStream).validate(jsonNode).isEmpty();
         } catch(FileNotFoundException e) {
             new Logger("MessageValidator").error("Cannot find schema file: " + schemaPath);
             return false;

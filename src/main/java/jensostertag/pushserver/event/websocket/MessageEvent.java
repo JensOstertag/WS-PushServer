@@ -1,12 +1,13 @@
-package jensostertag.pushserver.events;
+package jensostertag.pushserver.event.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jensostertag.pushserver.event.Event;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.protocol.MessageType;
 import jensostertag.pushserver.protocol.MessageValidator;
 import org.java_websocket.WebSocket;
 
-public class MessageEvent {
+public class MessageEvent extends Event {
     private final WebSocket _webSocket;
     private final String _message;
     private final MessageType _messageType;

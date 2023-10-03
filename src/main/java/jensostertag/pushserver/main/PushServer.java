@@ -1,15 +1,14 @@
 package jensostertag.pushserver.main;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jensostertag.pushserver.data.Config;
-import jensostertag.pushserver.events.MessageEvent;
-import jensostertag.pushserver.events.initiators.MessageEventInitiator;
+import jensostertag.pushserver.event.EventInitiator;
+import jensostertag.pushserver.event.websocket.ConnectEvent;
+import jensostertag.pushserver.event.websocket.MessageEvent;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
-import jensostertag.pushserver.exceptions.NoUuidAvailableException;
-import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.objects.UnregisteredWebSocketMessage;
 import jensostertag.pushserver.objects.WebSocketMessage;
 import jensostertag.pushserver.protocol.MessageCreator;
+import jensostertag.pushserver.util.Logger;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -23,7 +22,10 @@ public class PushServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake handshake) {
+        ConnectEvent event = new ConnectEvent(webSocket);
+        EventInitiator.trigger(event);
 
+        new Logger("Server").log("Client connected");
     }
 
     @Override
@@ -35,7 +37,7 @@ public class PushServer extends WebSocketServer {
     public void onMessage(WebSocket webSocket, String message) {
         try {
             MessageEvent event = new MessageEvent(webSocket, message);
-            MessageEventInitiator.trigger(event);
+            EventInitiator.trigger(event);
         } catch(InvalidMessageException | JsonProcessingException e) {
             try {
                 String responseMessage = (e instanceof InvalidMessageException) ? "Invalid message" : "Bad JSON";
@@ -56,11 +58,12 @@ public class PushServer extends WebSocketServer {
 
     @Override
     public void onStart() {
+        new Logger("Server").log("Starting server...");
 
-    }
+        // Start WebSocketMessageQueue for outgoing messages
+        new Logger("Server").log("Starting WebSocketMessageQueue");
+        WebSocketMessageQueue.getInstance().start();
 
-    public static void main(String[] args) {
-        PushServer pushServer = new PushServer(new InetSocketAddress("0.0.0.0", Config.PORT_C2S));
-        pushServer.run();
+        new Logger("Server").log("Server started");
     }
 }
