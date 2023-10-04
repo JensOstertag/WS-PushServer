@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "client/push",
+  "type": "object",
+  "properties": {
+    "messageType": {
+      "type": "string",
+      "const": "CLIENT_PUSH"
+    },
+    "code": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "subscribedChannels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pushMessage":{
+          "type": "object",
+          "properties": {
+            "channel": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "channel",
+            "message"
+          ]
+        }
+      },
+      "required": [
+        "uuid",
+        "subscribedChannels",
+        "pushMessage"
+      ]
+    }
+  },
+  "required": [
+    "messageType",
+    "code",
+    "message",
+    "data"
+  ]
+}
