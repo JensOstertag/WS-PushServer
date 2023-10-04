@@ -11,12 +11,11 @@ import jensostertag.pushserver.protocol.MessageCreator;
 import jensostertag.pushserver.util.Logger;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
 
-public class PushServer extends WebSocketServer {
-    public PushServer(InetSocketAddress inetSocketAddress) {
+public class WebSocketServer extends org.java_websocket.server.WebSocketServer {
+    public WebSocketServer(InetSocketAddress inetSocketAddress) {
         super(inetSocketAddress);
     }
 
@@ -58,12 +57,12 @@ public class PushServer extends WebSocketServer {
 
     @Override
     public void onStart() {
-        new Logger("Server").log("Starting server...");
+        new Logger("WebSocket-Server").log("Starting server...");
 
         // Start WebSocketMessageQueue for outgoing messages
-        new Logger("Server").log("Starting WebSocketMessageQueue");
+        new Logger("WebSocket-Server").log("Starting WebSocketMessageQueue");
         WebSocketMessageQueue.getInstance().start();
 
-        new Logger("Server").log("Server started");
+        new Logger("WebSocket-Server").log("Server started");
     }
 }

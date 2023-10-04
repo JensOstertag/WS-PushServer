@@ -17,8 +17,12 @@ public class Main {
         EventInitiator.registerListener(new ClientSubscribeHandler());
         EventInitiator.registerListener(new ClientUnsubscribeHandler());
 
-        // Start push server
-        PushServer pushServer = new PushServer(new InetSocketAddress("0.0.0.0", Config.PORT_C2S));
-        pushServer.run();
+        // Start HTTP server
+        HttpServer httpServer = new HttpServer(new InetSocketAddress("0.0.0.0", Config.PORT_S2S));
+        httpServer.start();
+
+        // Start WebSocket server
+        WebSocketServer webSocketServer = new WebSocketServer(new InetSocketAddress("0.0.0.0", Config.PORT_C2S));
+        webSocketServer.run();
     }
 }
