@@ -15,13 +15,13 @@ import java.io.InputStream;
 
 public class MessageValidator {
     private static final String[][] SCHEMAS = {
-        {"ERROR", "src/main/resources/schemas/error.schema.json"},
-        {"CLIENT_SUBSCRIBE", "src/main/resources/schemas/clients/subscribe.schema.json"},
-        {"CLIENT_UNSUBSCRIBE", "src/main/resources/schemas/clients/unsubscribe.schema.json"},
-        {"CLIENT_ACK", "src/main/resources/schemas/clients/ack.schema.json"},
-        {"CLIENT_PUSH", "src/main/resources/schemas/clients/push.schema.json"},
-        {"SERVER_BROADCAST", "src/main/resources/schemas/servers/broadcast.schema.json"},
-        {"SERVER_SEND_TO", "src/main/resources/schemas/servers/send_to.schema.json"}
+        {"ERROR", "src/resources/schema/error.schema.json"},
+        {"CLIENT_SUBSCRIBE", "src/resources/schema/client/subscribe.schema.json"},
+        {"CLIENT_UNSUBSCRIBE", "src/resources/schema/client/unsubscribe.schema.json"},
+        {"CLIENT_ACK", "src/resources/schema/client/ack.schema.json"},
+        {"CLIENT_PUSH", "src/resources/schema/client/push.schema.json"},
+        {"SERVER_BROADCAST", "src/resources/schema/server/broadcast.schema.json"},
+        {"SERVER_SEND_TO", "src/resources/schema/server/send_to.schema.json"}
     };
 
     public static MessageType getMessageType(String jsonString) throws JsonProcessingException, InvalidMessageException {

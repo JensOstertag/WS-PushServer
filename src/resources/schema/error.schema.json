@@ -8,7 +8,7 @@
       "const": "ERROR"
     },
     "code": {
-      "type": "number"
+      "type": "integer"
     },
     "message": {
       "type": "string"

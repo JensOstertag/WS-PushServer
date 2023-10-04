@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.protocol.messages.BaseOutgoingMessage;
+import jensostertag.pushserver.protocol.messages.Error;
 import jensostertag.pushserver.protocol.messages.clients.ACK;
 import jensostertag.pushserver.protocol.messages.clients.Push;
 import jensostertag.pushserver.util.Logger;
@@ -18,7 +19,8 @@ public class MessageCreator {
         try {
             MessageValidator.getMessageType(json);
         } catch(JsonProcessingException e) {
-            new Logger("MessageCreator").error("Generated invalid message: \n" + json);
+            new Logger("MessageCreator").error("Generated invalid message:");
+            new Logger("MessageCreator").error(json);
             throw new InvalidMessageException("Invalid message");
         }
 
