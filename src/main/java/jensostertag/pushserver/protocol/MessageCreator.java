@@ -14,8 +14,13 @@ import jensostertag.pushserver.util.Logger;
 
 public class MessageCreator {
     public static String generateMessage(Object message) throws InvalidMessageException {
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .create();
         String json = gson.toJson(message);
+
+        System.out.println(json);
 
         try {
             MessageValidator.getMessageType(json);

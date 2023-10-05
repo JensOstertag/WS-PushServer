@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
+import jensostertag.pushserver.main.PermissionHandler;
 import jensostertag.pushserver.objects.WebSocketChannel;
 import jensostertag.pushserver.protocol.MessageCreator;
 import jensostertag.pushserver.protocol.MessageType;
@@ -13,7 +14,7 @@ import jensostertag.pushserver.protocol.MessageValidator;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class HttpChannelPing implements HttpHandler {
+public class HttpChannelDelete implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "";
@@ -30,7 +31,7 @@ public class HttpChannelPing implements HttpHandler {
         try {
             MessageType messageType = MessageValidator.getMessageType(requestBody);
 
-            if(messageType == MessageType.SERVER_CHANNEL_PING) {
+            if(messageType == MessageType.SERVER_CHANNEL_DELETE) {
                 JsonObject jsonObject = new Gson().fromJson(requestBody, JsonObject.class);
                 String channel = jsonObject.get("data").getAsJsonObject().get("channel").getAsString();
                 WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannelNullable(channel);
@@ -44,15 +45,13 @@ public class HttpChannelPing implements HttpHandler {
                 if(webSocketChannel == null) {
                     response = MessageCreator.error(404, "Not found", "Could not find a WebSocketChannel called \"" + channel + "\"");
                     responseCode = 404;
-                } else if(channelToken == null) {
-                    response = MessageCreator.error(401, "Unauthorized", "No channel token provided");
-                    responseCode = 401;
-                } else if(channelToken.equals(webSocketChannel.getToken())) {
-                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "OK");
-                    responseCode = 200;
-                } else {
+                } else if(!PermissionHandler.hasPermission(channelToken, webSocketChannel)) {
                     response = MessageCreator.error(403, "Forbidden", "Channel token is invalid");
                     responseCode = 403;
+                } else {
+                    webSocketChannel.destroy();
+                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "Deleted");
+                    responseCode = 200;
                 }
             } else {
                 response = MessageCreator.error(400, "Bad Request", "Invalid message type");

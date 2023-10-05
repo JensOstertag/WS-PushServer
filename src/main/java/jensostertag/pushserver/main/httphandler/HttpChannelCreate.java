@@ -13,7 +13,7 @@ import jensostertag.pushserver.protocol.MessageValidator;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class HttpChannelPing implements HttpHandler {
+public class HttpChannelCreate implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "";
@@ -30,29 +30,18 @@ public class HttpChannelPing implements HttpHandler {
         try {
             MessageType messageType = MessageValidator.getMessageType(requestBody);
 
-            if(messageType == MessageType.SERVER_CHANNEL_PING) {
+            if(messageType == MessageType.SERVER_CHANNEL_CREATE) {
                 JsonObject jsonObject = new Gson().fromJson(requestBody, JsonObject.class);
                 String channel = jsonObject.get("data").getAsJsonObject().get("channel").getAsString();
                 WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannelNullable(channel);
-                String channelToken;
-                if(jsonObject.get("data").getAsJsonObject().get("channelToken").isJsonNull()) {
-                    channelToken = null;
-                } else {
-                    channelToken = jsonObject.get("data").getAsJsonObject().get("channelToken").getAsString();
-                }
 
-                if(webSocketChannel == null) {
-                    response = MessageCreator.error(404, "Not found", "Could not find a WebSocketChannel called \"" + channel + "\"");
-                    responseCode = 404;
-                } else if(channelToken == null) {
-                    response = MessageCreator.error(401, "Unauthorized", "No channel token provided");
-                    responseCode = 401;
-                } else if(channelToken.equals(webSocketChannel.getToken())) {
-                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "OK");
-                    responseCode = 200;
+                if(webSocketChannel != null) {
+                    response = MessageCreator.error(409, "Conflict", "A WebSocketChannel called \"" + channel + "\" already exists");
+                    responseCode = 409;
                 } else {
-                    response = MessageCreator.error(403, "Forbidden", "Channel token is invalid");
-                    responseCode = 403;
+                    webSocketChannel = new WebSocketChannel(channel);
+                    response = MessageCreator.serverAck(webSocketChannel, true, 200, "Created");
+                    responseCode = 200;
                 }
             } else {
                 response = MessageCreator.error(400, "Bad Request", "Invalid message type");

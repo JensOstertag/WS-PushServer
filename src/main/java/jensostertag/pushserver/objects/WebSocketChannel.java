@@ -3,6 +3,7 @@ package jensostertag.pushserver.objects;
 import jensostertag.pushserver.exceptions.WebSocketChannelNotFoundException;
 import jensostertag.pushserver.util.Token;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,10 +12,14 @@ public class WebSocketChannel {
 
     private final String _name;
     private final String _token;
+    private final List<Client> _clients;
 
     public WebSocketChannel(String name) {
         this._name = name;
         this._token = Token.randomToken();
+        this._clients = new ArrayList<>();
+
+        WebSocketChannel.CHANNELS.put(name, this);
     }
 
     public String getName() {
@@ -23,6 +28,20 @@ public class WebSocketChannel {
 
     public String getToken() {
         return this._token;
+    }
+
+    public void subscribe(Client client) {
+        this._clients.add(client);
+    }
+
+    public void unsubscribe(Client client) {
+        this._clients.remove(client);
+    }
+
+    public void destroy() {
+        this._clients.forEach(client -> client.unsubscribeFromChannel(this));
+
+        WebSocketChannel.CHANNELS.remove(this._name);
     }
 
     public static WebSocketChannel getWebSocketChannel(String name) throws WebSocketChannelNotFoundException {

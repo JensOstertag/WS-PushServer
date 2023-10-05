@@ -16,6 +16,9 @@
       "properties": {
         "channel": {
           "type": "string"
+        },
+        "channelToken": {
+          "type": ["string", "null"]
         }
       },
       "required": [

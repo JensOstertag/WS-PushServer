@@ -47,10 +47,12 @@ public class Client {
     }
 
     public void subscribeToChannel(WebSocketChannel channel) {
+        channel.subscribe(this);
         this._subscribedChannels.add(channel);
     }
 
     public void unsubscribeFromChannel(WebSocketChannel channel) {
+        channel.unsubscribe(this);
         this._subscribedChannels.remove(channel);
     }
 

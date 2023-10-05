@@ -1,5 +1,7 @@
 package jensostertag.pushserver.main;
 
+import jensostertag.pushserver.main.httphandler.HttpChannelCreate;
+import jensostertag.pushserver.main.httphandler.HttpChannelDelete;
 import jensostertag.pushserver.main.httphandler.HttpChannelPing;
 import jensostertag.pushserver.main.httphandler.HttpSysadminHandler;
 import jensostertag.pushserver.util.Logger;
@@ -28,6 +30,8 @@ public class HttpServer extends Thread {
             new Logger("HTTP-Server").log("Setting up routes");
             httpServer.createContext("/sysadmin", new HttpSysadminHandler());
             httpServer.createContext("/channel/ping", new HttpChannelPing());
+            httpServer.createContext("/channel/create", new HttpChannelCreate());
+            httpServer.createContext("/channel/delete", new HttpChannelDelete());
 
             httpServer.start();
         } catch(IOException e) {

@@ -1,0 +1,39 @@
+### Ping channel
+POST /channel/ping HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "PING_CHANNEL",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "JXnFIArxxh#y@5lp5oImKLwC#BgQ0huaUfj3bD+*aJpcvUxAsKISc+-IQD+nUmxoId10xk2L+NA25DxKv+V-+hVqGX63vBS0TX:S8V--ifXvUnDjo.EchORK:TXm4k2g"
+  }
+}
+
+
+### Create channel
+POST /channel/create HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "CREATE_CHANNEL",
+  "data": {
+    "channel": "channelName"
+  }
+}
+
+
+### Delete channel
+POST /channel/delete HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "DELETE_CHANNEL",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "JXnFIArxxh#y@5lp5oImKLwC#BgQ0huaUfj3bD+*aJpcvUxAsKISc+-IQD+nUmxoId10xk2L+NA25DxKv+V-+hVqGX63vBS0TX:S8V--ifXvUnDjo.EchORK:TXm4k2g"
+  }
+}

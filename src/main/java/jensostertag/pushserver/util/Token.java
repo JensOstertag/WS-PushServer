@@ -5,7 +5,7 @@ import jensostertag.pushserver.data.Config;
 import java.util.Random;
 
 public class Token {
-    private static final String TOKEN_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,_+-*#@%&<>";
+    private static final String TOKEN_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.+-*#@:";
 
 
     public static String randomToken() {
