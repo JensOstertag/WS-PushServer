@@ -5,10 +5,7 @@ import jensostertag.pushserver.exceptions.ClientNotFoundException;
 import jensostertag.pushserver.exceptions.NoUuidAvailableException;
 import org.java_websocket.WebSocket;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Client {
     private static final HashMap<UUID, Client> CLIENTS = new HashMap<>();
@@ -62,6 +59,8 @@ public class Client {
     }
 
     public void destroy() {
+        this._subscribedChannels.forEach(this::unsubscribeFromChannel);
+
         Client.CLIENTS.put(this._uuid, null);
     }
 
@@ -84,6 +83,6 @@ public class Client {
     }
 
     public static List<Client> getClients() {
-        return Client.CLIENTS.values().stream().toList();
+        return Client.CLIENTS.values().stream().filter(Objects::nonNull).toList();
     }
 }

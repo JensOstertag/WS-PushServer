@@ -2,10 +2,7 @@ package jensostertag.pushserver.main;
 
 import jensostertag.pushserver.data.Config;
 import jensostertag.pushserver.event.EventInitiator;
-import jensostertag.pushserver.eventhandler.ClientSubscribeHandler;
-import jensostertag.pushserver.eventhandler.ClientUnsubscribeHandler;
-import jensostertag.pushserver.eventhandler.ConnectHandler;
-import jensostertag.pushserver.eventhandler.MessageHandler;
+import jensostertag.pushserver.eventhandler.*;
 
 import java.net.InetSocketAddress;
 
@@ -13,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         // Event handlers
         EventInitiator.registerListener(new ConnectHandler());
+        EventInitiator.registerListener(new DisconnectHandler());
         EventInitiator.registerListener(new MessageHandler());
         EventInitiator.registerListener(new ClientSubscribeHandler());
         EventInitiator.registerListener(new ClientUnsubscribeHandler());

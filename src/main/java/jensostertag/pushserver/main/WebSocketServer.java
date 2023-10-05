@@ -3,6 +3,7 @@ package jensostertag.pushserver.main;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jensostertag.pushserver.event.EventInitiator;
 import jensostertag.pushserver.event.websocket.ConnectEvent;
+import jensostertag.pushserver.event.websocket.DisconnectEvent;
 import jensostertag.pushserver.event.websocket.MessageEvent;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.objects.UnregisteredWebSocketMessage;
@@ -29,7 +30,10 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer {
 
     @Override
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
+        DisconnectEvent event = new DisconnectEvent(webSocket);
+        EventInitiator.trigger(event);
 
+        new Logger("Server").log("Client disconnected");
     }
 
     @Override
