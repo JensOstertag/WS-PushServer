@@ -43,7 +43,7 @@ public class WebSocketServer extends org.java_websocket.server.WebSocketServer {
                 String jsonMessage = MessageCreator.error(400, responseMessage, message);
                 WebSocketMessage webSocketMessage = new UnregisteredWebSocketMessage(webSocket, jsonMessage);
                 WebSocketMessageQueue.getInstance().queueMessage(webSocketMessage);
-            } catch (InvalidMessageException f) {
+            } catch(InvalidMessageException f) {
                 // Catch block left empty on purpose
                 // This exception is already handled by the MessageCreator
             }

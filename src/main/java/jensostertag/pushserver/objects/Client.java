@@ -72,4 +72,18 @@ public class Client {
 
         return Client.CLIENTS.get(uuid);
     }
+
+    public static Client getClient(WebSocket webSocket) throws ClientNotFoundException {
+        for(Client client : Client.CLIENTS.values()) {
+            if(client.getWebSocket().equals(webSocket)) {
+                return client;
+            }
+        }
+
+        throw new ClientNotFoundException("Client with WebSocket " + webSocket.toString() + " not found");
+    }
+
+    public static List<Client> getClients() {
+        return Client.CLIENTS.values().stream().toList();
+    }
 }

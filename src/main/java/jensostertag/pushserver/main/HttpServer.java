@@ -1,6 +1,7 @@
 package jensostertag.pushserver.main;
 
-import jensostertag.pushserver.main.httphandler.HttpCheckHandler;
+import jensostertag.pushserver.main.httphandler.HttpChannelPing;
+import jensostertag.pushserver.main.httphandler.HttpSysadminHandler;
 import jensostertag.pushserver.util.Logger;
 
 import java.io.IOException;
@@ -25,7 +26,8 @@ public class HttpServer extends Thread {
             com.sun.net.httpserver.HttpServer httpServer = com.sun.net.httpserver.HttpServer.create(this._inetSocketAddress, 0);
 
             new Logger("HTTP-Server").log("Setting up routes");
-            httpServer.createContext("/check", new HttpCheckHandler());
+            httpServer.createContext("/sysadmin", new HttpSysadminHandler());
+            httpServer.createContext("/channel/ping", new HttpChannelPing());
 
             httpServer.start();
         } catch(IOException e) {
