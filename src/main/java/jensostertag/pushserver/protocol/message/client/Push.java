@@ -1,4 +1,4 @@
-package jensostertag.pushserver.protocol.messages.clients;
+package jensostertag.pushserver.protocol.message.client;
 
 import com.google.gson.annotations.Expose;
 import jensostertag.pushserver.objects.Client;

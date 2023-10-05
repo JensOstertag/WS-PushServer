@@ -5,14 +5,20 @@ public enum MessageType {
     ERROR,
 
     // Messages from clients
-    CLIENT_SUBSCRIBE,
-    CLIENT_UNSUBSCRIBE,
+    CLIENT_SUBSCRIBE_CHANNEL,
+    CLIENT_UNSUBSCRIBE_CHANNEL,
 
     // Messages to clients
     CLIENT_ACK,
     CLIENT_PUSH,
 
     // Messages from servers
-    SERVER_BROADCAST,
-    SERVER_SEND_TO
+    SERVER_CHANNEL_CREATE,
+    SERVER_CHANNEL_DELETE,
+    SERVER_CHANNEL_PING,
+    SERVER_PUSH_MESSAGE,
+
+    // Messages to servers
+    SERVER_ACK,
+    SERVER_SYSADMIN
 }

@@ -5,10 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.objects.Client;
-import jensostertag.pushserver.protocol.messages.BaseOutgoingMessage;
-import jensostertag.pushserver.protocol.messages.Error;
-import jensostertag.pushserver.protocol.messages.clients.ACK;
-import jensostertag.pushserver.protocol.messages.clients.Push;
+import jensostertag.pushserver.objects.WebSocketChannel;
+import jensostertag.pushserver.protocol.message.BaseOutgoingMessage;
+import jensostertag.pushserver.protocol.message.Error;
+import jensostertag.pushserver.protocol.message.client.Push;
+import jensostertag.pushserver.protocol.message.server.Sysadmin;
 import jensostertag.pushserver.util.Logger;
 
 public class MessageCreator {
@@ -34,7 +35,7 @@ public class MessageCreator {
     }
 
     public static String clientAck(Client client, int code, String message) throws InvalidMessageException {
-        Object data = new ACK(client);
+        Object data = new jensostertag.pushserver.protocol.message.client.ACK(client);
         Object outgoingMessage = new BaseOutgoingMessage(MessageType.CLIENT_ACK, code, message, data);
         return MessageCreator.generateMessage(outgoingMessage);
     }
@@ -42,6 +43,18 @@ public class MessageCreator {
     public static String clientPush(Client client, int code, String message, Object pushMessage) throws InvalidMessageException {
         Object data = new Push(client, pushMessage);
         Object outgoingMessage = new BaseOutgoingMessage(MessageType.CLIENT_PUSH, code, message, data);
+        return MessageCreator.generateMessage(outgoingMessage);
+    }
+
+    public static String serverAck(WebSocketChannel webSocketChannel, boolean includeChannelToken, int code, String message) throws InvalidMessageException {
+        Object data = new jensostertag.pushserver.protocol.message.server.ACK(webSocketChannel, includeChannelToken);
+        Object outgoingMessage = new BaseOutgoingMessage(MessageType.SERVER_ACK, code, message, data);
+        return MessageCreator.generateMessage(outgoingMessage);
+    }
+
+    public static String sysadmin(int code, String message) throws InvalidMessageException {
+        Object data = new Sysadmin();
+        Object outgoingMessage = new BaseOutgoingMessage(MessageType.SERVER_SYSADMIN, code, message, data);
         return MessageCreator.generateMessage(outgoingMessage);
     }
 }

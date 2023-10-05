@@ -15,13 +15,19 @@ import java.io.InputStream;
 
 public class MessageValidator {
     private static final String[][] SCHEMAS = {
-        {"ERROR", "src/resources/schema/error.schema.json"},
-        {"CLIENT_SUBSCRIBE", "src/resources/schema/client/subscribe.schema.json"},
-        {"CLIENT_UNSUBSCRIBE", "src/resources/schema/client/unsubscribe.schema.json"},
-        {"CLIENT_ACK", "src/resources/schema/client/ack.schema.json"},
-        {"CLIENT_PUSH", "src/resources/schema/client/push.schema.json"},
-        {"SERVER_BROADCAST", "src/resources/schema/server/broadcast.schema.json"},
-        {"SERVER_SEND_TO", "src/resources/schema/server/send_to.schema.json"}
+        {"ERROR",                      "src/resources/schema/error.schema.json"},
+
+        {"CLIENT_SUBSCRIBE_CHANNEL",   "src/resources/schema/client/subscribeChannel.schema.json"},
+        {"CLIENT_UNSUBSCRIBE_CHANNEL", "src/resources/schema/client/unsubscribeChannel.schema.json"},
+        {"CLIENT_ACK",                 "src/resources/schema/client/ack.schema.json"},
+        {"CLIENT_PUSH",                "src/resources/schema/client/push.schema.json"},
+
+        {"SERVER_CHANNEL_CREATE",      "src/resources/schema/server/createChannel.schema.json"},
+        {"SERVER_CHANNEL_DELETE",      "src/resources/schema/server/deleteChannel.schema.json"},
+        {"SERVER_CHANNEL_PING",        "src/resources/schema/server/pingChannel.schema.json"},
+        {"SERVER_PUSH_MESSAGE",        "src/resources/schema/server/pushMessage.schema.json"},
+        {"SERVER_ACK",                 "src/resources/schema/server/ack.schema.json"},
+        {"SERVER_SYSADMIN",            "src/resources/schema/server/sysadmin.schema.json"}
     };
 
     public static MessageType getMessageType(String jsonString) throws JsonProcessingException, InvalidMessageException {

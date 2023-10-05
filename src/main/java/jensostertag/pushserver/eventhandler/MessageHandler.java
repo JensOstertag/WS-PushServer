@@ -28,9 +28,9 @@ public class MessageHandler implements Listener {
         JsonObject json = new Gson().fromJson(event.getMessage(), JsonObject.class);
 
         try {
-            switch (event.getMessageType()) {
+            switch(event.getMessageType()) {
                 case ERROR, CLIENT_ACK, CLIENT_PUSH -> {}
-                case CLIENT_SUBSCRIBE, CLIENT_UNSUBSCRIBE -> {
+                case CLIENT_SUBSCRIBE_CHANNEL, CLIENT_UNSUBSCRIBE_CHANNEL -> {
                     String uuidString = json.get("uuid").getAsString();
                     UUID uuid = UUID.fromString(uuidString);
                     String channel = json.get("data").getAsJsonObject().get("channel").getAsString();
@@ -45,7 +45,7 @@ public class MessageHandler implements Listener {
                     Client client = Client.getClient(uuid);
 
                     Event delegateEvent;
-                    if(event.getMessageType() == MessageType.CLIENT_SUBSCRIBE) {
+                    if(event.getMessageType() == MessageType.CLIENT_SUBSCRIBE_CHANNEL) {
                         delegateEvent = new ClientSubscribeEvent(client, webSocketChannel);
                     } else {
                         delegateEvent = new ClientUnsubscribeEvent(client, webSocketChannel);

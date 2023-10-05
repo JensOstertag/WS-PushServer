@@ -1,4 +1,4 @@
-package jensostertag.pushserver.protocol.messages;
+package jensostertag.pushserver.protocol.message;
 
 import com.google.gson.annotations.Expose;
 
