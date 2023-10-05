@@ -67,7 +67,7 @@ public class Client {
 
     public static Client getClient(UUID uuid) throws ClientNotFoundException {
         if(!Client.CLIENTS.containsKey(uuid)) {
-            throw new ClientNotFoundException("Client with UUID " + uuid.toString() + " not found");
+            throw new ClientNotFoundException("Could not find a Client with UUID \"" + uuid.toString() + "\"");
         }
 
         return Client.CLIENTS.get(uuid);
@@ -80,7 +80,7 @@ public class Client {
             }
         }
 
-        throw new ClientNotFoundException("Client with WebSocket " + webSocket.toString() + " not found");
+        throw new ClientNotFoundException("Could not find a Client with WebSocket \"" + webSocket.toString() + "\"");
     }
 
     public static List<Client> getClients() {

@@ -33,8 +33,6 @@ public class MessageHandler implements Listener {
                 case CLIENT_SUBSCRIBE_CHANNEL, CLIENT_UNSUBSCRIBE_CHANNEL -> {
                     String uuidString = json.get("uuid").getAsString();
                     UUID uuid = UUID.fromString(uuidString);
-                    String channel = json.get("data").getAsJsonObject().get("channel").getAsString();
-                    WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannel(channel);
 
                     if(!PermissionHandler.hasPermission(uuid, event.getWebSocket())) {
                         String jsonMessage = MessageCreator.error(403, "Forbidden", "The given UUID does not belong to this WebSocket connection");
@@ -43,6 +41,16 @@ public class MessageHandler implements Listener {
                     }
 
                     Client client = Client.getClient(uuid);
+
+                    String channel = json.get("data").getAsJsonObject().get("channel").getAsString();
+                    WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannelNullable(channel);
+
+                    if(webSocketChannel == null) {
+                        String jsonMessage = MessageCreator.error(404, "Not found", "Could not find a WebSocketChannel called \"" + channel + "\"");
+                        WebSocketMessage webSocketMessage = new UnregisteredWebSocketMessage(event.getWebSocket(), jsonMessage);
+                        WebSocketMessageQueue.getInstance().queueMessage(webSocketMessage);
+                        return;
+                    }
 
                     Event delegateEvent;
                     if(event.getMessageType() == MessageType.CLIENT_SUBSCRIBE_CHANNEL) {

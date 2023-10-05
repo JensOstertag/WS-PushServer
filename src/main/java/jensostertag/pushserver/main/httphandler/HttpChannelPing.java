@@ -33,11 +33,11 @@ public class HttpChannelPing implements HttpHandler {
             if(messageType == MessageType.SERVER_CHANNEL_PING) {
                 JsonObject jsonObject = new Gson().fromJson(requestBody, JsonObject.class);
                 String channel = jsonObject.get("data").getAsJsonObject().get("channel").getAsString();
-                WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannel(channel);
+                WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannelNullable(channel);
                 String channelToken = jsonObject.get("data").getAsJsonObject().get("channelToken").getAsString();
 
                 if(webSocketChannel == null) {
-                    response = MessageCreator.error(404, "Not found", "Could not find a channel called \"" + channel + "\"");
+                    response = MessageCreator.error(404, "Not found", "Could not find a WebSocketChannel called \"" + channel + "\"");
                     responseCode = 404;
                 } else if(channelToken == null) {
                     response = MessageCreator.error(401, "Unauthorized", "No channel token provided");
@@ -46,7 +46,7 @@ public class HttpChannelPing implements HttpHandler {
                     response = MessageCreator.serverAck(webSocketChannel, false, 200, "OK");
                     responseCode = 200;
                 } else {
-                    response = MessageCreator.error(403, "Forbidden", "WebSocketChannel token is invalid");
+                    response = MessageCreator.error(403, "Forbidden", "Channel token is invalid");
                     responseCode = 403;
                 }
             } else {

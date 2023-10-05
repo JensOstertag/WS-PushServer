@@ -1,5 +1,6 @@
 package jensostertag.pushserver.objects;
 
+import jensostertag.pushserver.exceptions.WebSocketChannelNotFoundException;
 import jensostertag.pushserver.util.Token;
 
 import java.util.HashMap;
@@ -24,12 +25,20 @@ public class WebSocketChannel {
         return this._token;
     }
 
-    public static WebSocketChannel getWebSocketChannel(String name) {
+    public static WebSocketChannel getWebSocketChannel(String name) throws WebSocketChannelNotFoundException {
         if(!WebSocketChannel.CHANNELS.containsKey(name)) {
-            WebSocketChannel.CHANNELS.put(name, new WebSocketChannel(name));
+            throw new WebSocketChannelNotFoundException("Could not find a WebSocketChannel called \"" + name + "\"");
         }
 
         return WebSocketChannel.CHANNELS.get(name);
+    }
+
+    public static WebSocketChannel getWebSocketChannelNullable(String name) {
+        try {
+            return WebSocketChannel.getWebSocketChannel(name);
+        } catch(WebSocketChannelNotFoundException e) {
+            return null;
+        }
     }
 
     public static List<WebSocketChannel> getWebSocketChannels() {

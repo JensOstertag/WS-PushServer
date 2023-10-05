@@ -52,7 +52,7 @@ public class MessageValidator {
 
             return schemaFactory.getSchema(schemaInputStream).validate(jsonNode).isEmpty();
         } catch(FileNotFoundException e) {
-            new Logger("MessageValidator").error("Cannot find schema file: " + schemaPath);
+            new Logger("MessageValidator").error("Could not find schema file \"" + schemaPath + "\"");
             return false;
         }
     }
