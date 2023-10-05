@@ -30,6 +30,10 @@ public class WebSocketChannel {
         return this._token;
     }
 
+    public List<Client> getClients() {
+        return this._clients.stream().toList();
+    }
+
     public void subscribe(Client client) {
         this._clients.add(client);
     }

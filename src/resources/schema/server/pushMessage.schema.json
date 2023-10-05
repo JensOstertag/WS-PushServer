@@ -9,7 +9,7 @@
     },
     "action": {
       "type": "string",
-      "const": "BROADCAST_CHANNEL"
+      "const": "PUSH_MESSAGE"
     },
     "data": {
       "type": "object",

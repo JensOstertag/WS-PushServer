@@ -9,6 +9,7 @@ import jensostertag.pushserver.objects.WebSocketChannel;
 import jensostertag.pushserver.protocol.message.BaseOutgoingMessage;
 import jensostertag.pushserver.protocol.message.Error;
 import jensostertag.pushserver.protocol.message.client.Push;
+import jensostertag.pushserver.protocol.message.client.PushMessage;
 import jensostertag.pushserver.protocol.message.server.Sysadmin;
 import jensostertag.pushserver.util.Logger;
 
@@ -47,6 +48,11 @@ public class MessageCreator {
         Object data = new Push(client, pushMessage);
         Object outgoingMessage = new BaseOutgoingMessage(MessageType.CLIENT_PUSH, code, message, data);
         return MessageCreator.generateMessage(outgoingMessage);
+    }
+
+    public static String clientPush(Client client, int code, String message, String channelName, String pushMessage) throws InvalidMessageException {
+        Object data = new PushMessage(channelName, pushMessage);
+        return MessageCreator.clientPush(client, code, message, data);
     }
 
     public static String serverAck(WebSocketChannel webSocketChannel, boolean includeChannelToken, int code, String message) throws InvalidMessageException {

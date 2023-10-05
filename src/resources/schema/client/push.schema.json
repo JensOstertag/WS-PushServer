@@ -26,7 +26,7 @@
             "type": "string"
           }
         },
-        "pushMessage":{
+        "pushMessage": {
           "type": "object",
           "properties": {
             "channel": {

@@ -25,6 +25,37 @@ Host: localhost:5223
 }
 
 
+### Push message to all clients in channel
+POST /push HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "PUSH_MESSAGE",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "channelToken",
+    "recipients": [],
+    "message": "message"
+  }
+}
+
+
+### Push message to specific clients in channel
+POST /push HTTP/1.1
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "PUSH_MESSAGE",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "channelToken",
+    "recipients": ["clientUuid1", "clientUuid2"],
+    "message": "message"
+  }
+}
+
+
 ### Delete channel
 POST /channel/delete HTTP/1.1
 Host: localhost:5223

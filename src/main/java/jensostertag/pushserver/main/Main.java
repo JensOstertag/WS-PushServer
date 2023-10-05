@@ -14,6 +14,7 @@ public class Main {
         EventInitiator.registerListener(new MessageHandler());
         EventInitiator.registerListener(new ClientSubscribeHandler());
         EventInitiator.registerListener(new ClientUnsubscribeHandler());
+        EventInitiator.registerListener(new PushMessageHandler());
 
         // Start HTTP server
         HttpServer httpServer = new HttpServer(new InetSocketAddress("0.0.0.0", Config.PORT_S2S));

@@ -71,7 +71,7 @@ public class HttpChannelDelete implements HttpHandler {
         } catch(InvalidMessageException e) {
             try {
                 response = MessageCreator.error(500, "Internal Server Error", null);
-                responseCode = 400;
+                responseCode = 500;
             } catch(InvalidMessageException f) {
                 response = "Internal Server Error";
                 responseCode = 500;

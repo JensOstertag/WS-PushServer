@@ -2,9 +2,12 @@ package jensostertag.pushserver.main.httphandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import jensostertag.pushserver.event.EventInitiator;
+import jensostertag.pushserver.event.websocket.PushMessageEvent;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.main.PermissionHandler;
 import jensostertag.pushserver.objects.WebSocketChannel;
@@ -14,8 +17,10 @@ import jensostertag.pushserver.protocol.MessageValidator;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.UUID;
 
-public class HttpChannelPing implements HttpHandler {
+public class HttpPushMessageHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "";
@@ -34,7 +39,7 @@ public class HttpChannelPing implements HttpHandler {
             try {
                 messageType = MessageValidator.getMessageType(requestBody);
 
-                if(messageType != MessageType.SERVER_CHANNEL_PING) {
+                if(messageType != MessageType.SERVER_PUSH_MESSAGE) {
                     throw new InvalidMessageException("Bad Request");
                 }
             } catch(InvalidMessageException e) {
@@ -45,7 +50,7 @@ public class HttpChannelPing implements HttpHandler {
                 responseCode = 400;
             }
 
-            if(messageType == MessageType.SERVER_CHANNEL_PING) {
+            if(messageType == MessageType.SERVER_PUSH_MESSAGE) {
                 JsonObject jsonObject = new Gson().fromJson(requestBody, JsonObject.class);
                 String channel = jsonObject.get("data").getAsJsonObject().get("channel").getAsString();
                 WebSocketChannel webSocketChannel = WebSocketChannel.getWebSocketChannelNullable(channel);
@@ -55,18 +60,20 @@ public class HttpChannelPing implements HttpHandler {
                 } else {
                     channelToken = jsonObject.get("data").getAsJsonObject().get("channelToken").getAsString();
                 }
+                List<UUID> recipients = jsonObject.get("data").getAsJsonObject().get("recipients").getAsJsonArray().asList().stream().map(JsonElement::getAsString).map(UUID::fromString).toList();
+                String message = jsonObject.get("data").getAsJsonObject().get("message").getAsString();
 
                 if(webSocketChannel == null) {
                     response = MessageCreator.error(404, "Not found", "Could not find a WebSocketChannel called \"" + channel + "\"");
                     responseCode = 404;
-                } else if(channelToken == null) {
-                    response = MessageCreator.error(401, "Unauthorized", "No channel token provided");
-                    responseCode = 401;
                 } else if(!PermissionHandler.hasPermission(channelToken, webSocketChannel)) {
                     response = MessageCreator.error(403, "Forbidden", "Channel token is invalid");
                     responseCode = 403;
                 } else {
-                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "OK");
+                    PushMessageEvent event = new PushMessageEvent(webSocketChannel, message, recipients);
+                    EventInitiator.trigger(event);
+
+                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "Deleted");
                     responseCode = 200;
                 }
             }
