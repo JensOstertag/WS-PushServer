@@ -61,7 +61,8 @@ public class Client {
     }
 
     public void destroy() {
-        this._subscribedChannels.forEach(this::unsubscribeFromChannel);
+        this._subscribedChannels.forEach(channel -> channel.unsubscribe(this));
+        this._subscribedChannels.clear();
 
         Client.CLIENTS.put(this._uuid, null);
     }
@@ -71,7 +72,12 @@ public class Client {
             throw new ClientNotFoundException("Could not find a Client with UUID \"" + uuid.toString() + "\"");
         }
 
-        return Client.CLIENTS.get(uuid);
+        Client client = Client.CLIENTS.get(uuid);
+        if(client == null) {
+            throw new ClientNotFoundException("Could not find a Client with UUID \"" + uuid.toString() + "\"");
+        }
+
+        return client;
     }
 
     public static Client getClient(WebSocket webSocket) throws ClientNotFoundException {

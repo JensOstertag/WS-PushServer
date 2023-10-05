@@ -7,7 +7,7 @@ Host: localhost:5223
   "action": "PING_CHANNEL",
   "data": {
     "channel": "channelName",
-    "channelToken": "JXnFIArxxh#y@5lp5oImKLwC#BgQ0huaUfj3bD+*aJpcvUxAsKISc+-IQD+nUmxoId10xk2L+NA25DxKv+V-+hVqGX63vBS0TX:S8V--ifXvUnDjo.EchORK:TXm4k2g"
+    "channelToken": "channelToken"
   }
 }
 
@@ -34,6 +34,6 @@ Host: localhost:5223
   "action": "DELETE_CHANNEL",
   "data": {
     "channel": "channelName",
-    "channelToken": "JXnFIArxxh#y@5lp5oImKLwC#BgQ0huaUfj3bD+*aJpcvUxAsKISc+-IQD+nUmxoId10xk2L+NA25DxKv+V-+hVqGX63vBS0TX:S8V--ifXvUnDjo.EchORK:TXm4k2g"
+    "channelToken": "channelToken"
   }
 }

@@ -20,8 +20,6 @@ public class MessageCreator {
                 .create();
         String json = gson.toJson(message);
 
-        System.out.println(json);
-
         try {
             MessageValidator.getMessageType(json);
         } catch(JsonProcessingException e) {
