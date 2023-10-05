@@ -1,5 +1,6 @@
 package jensostertag.pushserver.main.httphandler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
@@ -28,7 +29,20 @@ public class HttpChannelCreate implements HttpHandler {
         String requestBody = requestBodyBuilder.toString();
 
         try {
-            MessageType messageType = MessageValidator.getMessageType(requestBody);
+            MessageType messageType = null;
+            try {
+                messageType = MessageValidator.getMessageType(requestBody);
+
+                if(messageType != MessageType.SERVER_CHANNEL_CREATE) {
+                    throw new InvalidMessageException("Bad Request");
+                }
+            } catch(InvalidMessageException e) {
+                response = MessageCreator.error(400, "Bad Request", "Invalid message");
+                responseCode = 400;
+            } catch(JsonProcessingException e) {
+                response = MessageCreator.error(400, "Bad Request", requestBody);
+                responseCode = 400;
+            }
 
             if(messageType == MessageType.SERVER_CHANNEL_CREATE) {
                 JsonObject jsonObject = new Gson().fromJson(requestBody, JsonObject.class);
@@ -43,13 +57,10 @@ public class HttpChannelCreate implements HttpHandler {
                     response = MessageCreator.serverAck(webSocketChannel, true, 200, "Created");
                     responseCode = 200;
                 }
-            } else {
-                response = MessageCreator.error(400, "Bad Request", "Invalid message type");
-                responseCode = 400;
             }
         } catch(InvalidMessageException e) {
             try {
-                response = MessageCreator.error(400, "Bad Request", "Invalid message");
+                response = MessageCreator.error(500, "Internal Server Error", null);
                 responseCode = 400;
             } catch(InvalidMessageException f) {
                 response = "Internal Server Error";
