@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "server/ack",
+  "type": "object",
+  "properties": {
+    "messageType": {
+      "type": "string",
+      "const": "SERVER_ACK"
+    },
+    "code": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "channelToken": {
+          "type": ["string", "null"]
+        }
+      },
+      "required": [
+        "channel",
+        "channelToken"
+      ]
+    }
+  },
+  "required": [
+    "messageType",
+    "code",
+    "message",
+    "data"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "server/pingChannel",
+  "type": "object",
+  "properties": {
+    "messageType": {
+      "type": "string",
+      "const": "SERVER_ACTION"
+    },
+    "action": {
+      "type": "string",
+      "const": "PING_CHANNEL"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "channelToken": {
+          "type": ["string", "null"]
+        }
+      },
+      "required": [
+        "channel",
+        "channelToken"
+      ]
+    }
+  },
+  "required": [
+    "messageType",
+    "action",
+    "data"
+  ]
+}
