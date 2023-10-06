@@ -43,7 +43,7 @@ public class WebSocketChannel {
     }
 
     public void destroy() {
-        this._clients.forEach(client -> client.unsubscribeFromChannel(this));
+        this._clients.stream().toList().forEach(client -> client.unsubscribeFromChannel(this));
 
         WebSocketChannel.CHANNELS.remove(this._name);
     }

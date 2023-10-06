@@ -19,7 +19,7 @@ public class MessageTest {
         TestSetup.testSetup();
 
         // Create a new WebSocketChannel object
-        WebSocketChannel webSocketChannel = new WebSocketChannel("channelName");
+        WebSocketChannel webSocketChannel = new WebSocketChannel("MessageTest:sendToAllInChannel");
 
         // Create new Client objects and subscribe them to the channel
         int clientsAmount = 5;
@@ -47,7 +47,7 @@ public class MessageTest {
         TestSetup.testSetup();
 
         // Create a new WebSocketChannel object
-        WebSocketChannel webSocketChannel = new WebSocketChannel("channelName");
+        WebSocketChannel webSocketChannel = new WebSocketChannel("MessageTest:sendToSpecificInChannel");
 
         // Create new Client objects and subscribe them to the channel
         // Only the clients with even index will be added to the recipients list

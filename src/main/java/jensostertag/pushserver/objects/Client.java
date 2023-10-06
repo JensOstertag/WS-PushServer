@@ -61,7 +61,7 @@ public class Client {
     }
 
     public void destroy() {
-        this._subscribedChannels.forEach(channel -> channel.unsubscribe(this));
+        this._subscribedChannels.stream().toList().forEach(channel -> channel.unsubscribe(this));
         this._subscribedChannels.clear();
 
         Client.CLIENTS.put(this._uuid, null);

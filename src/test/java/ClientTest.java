@@ -25,14 +25,13 @@ public class ClientTest {
         Assert.assertEquals(client, Client.getClient(uuid));
 
         // Create a new WebSocketChannel object
-        WebSocketChannel webSocketChannel = new WebSocketChannel("channelName");
+        WebSocketChannel webSocketChannel = new WebSocketChannel("ClientTest:clientConnect");
 
         // Test whether the client isn't subscribed to the channel
         Assert.assertFalse(webSocketChannel.getClients().contains(client));
         Assert.assertFalse(client.getSubscribedChannels().contains(webSocketChannel));
 
         // Subscribe the client to the channel
-//        client.subscribeToChannel(webSocketChannel);
         ClientSubscribeEvent subscribeEvent = new ClientSubscribeEvent(client, webSocketChannel);
         EventInitiator.trigger(subscribeEvent);
 
@@ -41,11 +40,23 @@ public class ClientTest {
         Assert.assertTrue(client.getSubscribedChannels().contains(webSocketChannel));
 
         // Unsubscribe the client from the channel
-//        client.unsubscribeFromChannel(webSocketChannel);
         ClientUnsubscribeEvent unsubscribeEvent = new ClientUnsubscribeEvent(client, webSocketChannel);
         EventInitiator.trigger(unsubscribeEvent);
 
         // Test whether the client isn't subscribed to the channel
+        Assert.assertFalse(webSocketChannel.getClients().contains(client));
+        Assert.assertFalse(client.getSubscribedChannels().contains(webSocketChannel));
+
+        // Subscribe the client to the channel again
+        EventInitiator.trigger(subscribeEvent);
+
+        // Destroy the client
+        client.destroy();
+
+        // Test whether the client can't be found anymore
+        Assert.assertThrows(ClientNotFoundException.class, () -> Client.getClient(uuid));
+
+        // Test whether the client isn't subscribed to the channel anymore
         Assert.assertFalse(webSocketChannel.getClients().contains(client));
         Assert.assertFalse(client.getSubscribedChannels().contains(webSocketChannel));
     }

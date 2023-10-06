@@ -10,9 +10,10 @@ import java.util.List;
 public class EventInitiator {
     private static final HashMap<Class<?>, List<Object[]>> LISTENERS = new HashMap<>();
 
-    public static void registerListener(Listener listener) {
+    public static int registerListener(Listener listener) {
         new Logger("EventInitiator").debug("Setting up listeners for methods in class " + listener.getClass().getName());
 
+        int registeredEvents = 0;
         for(Method method : listener.getClass().getMethods()) {
             if(!method.isAnnotationPresent(EventHandler.class)) {
                 continue;
@@ -32,10 +33,13 @@ public class EventInitiator {
             listeners.add(new Object[]{listener, method});
             EventInitiator.LISTENERS.put(eventClass, listeners);
 
+            registeredEvents++;
+
             new Logger("EventInitiator").debug("Set up " + eventClass.getName() + " listener with method " + method.getName() + " in class " + listener.getClass().getName());
         }
 
         new Logger("EventInitiator").debug("Listener setup for class " + listener.getClass().getName() + " completed");
+        return registeredEvents;
     }
 
     public static void trigger(Event event) {

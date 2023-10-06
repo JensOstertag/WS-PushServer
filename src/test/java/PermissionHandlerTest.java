@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class PermissionHandlerTest {
     @Test
     public void testChannelPermission() {
-        WebSocketChannel webSocketChannel = new WebSocketChannel("channelName");
+        WebSocketChannel webSocketChannel = new WebSocketChannel("PermissionHandlerTest:testChannelPermission");
         String channelToken = webSocketChannel.getToken();
 
         Assert.assertFalse(PermissionHandler.hasPermission(null, webSocketChannel));

@@ -2,12 +2,13 @@ import jensostertag.pushserver.event.Event;
 import jensostertag.pushserver.event.EventHandler;
 import jensostertag.pushserver.event.EventInitiator;
 import jensostertag.pushserver.event.Listener;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class EventInitiatorTest {
     @Test
     public void testRegisterListener() {
-        EventInitiator.registerListener(new FailingRegister());
+        Assert.assertEquals(0, EventInitiator.registerListener(new FailingRegister()));
     }
 }
 

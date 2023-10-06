@@ -72,6 +72,6 @@ public class WebSocketMessageQueue extends Thread {
     }
 
     public boolean isReceivingMessage(Client client, String message) {
-        return this._messageQueue.stream().anyMatch(webSocketMessage -> webSocketMessage.getClient().equals(client) && webSocketMessage.getMessage().equals(message));
+        return this._messageQueue.stream().anyMatch(webSocketMessage -> webSocketMessage.getClient() == client && webSocketMessage.getMessage().equals(message));
     }
 }
