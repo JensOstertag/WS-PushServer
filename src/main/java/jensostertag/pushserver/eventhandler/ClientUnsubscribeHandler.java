@@ -14,7 +14,7 @@ public class ClientUnsubscribeHandler implements Listener {
 
         try {
             String jsonMessage = MessageCreator.clientAck(event.getClient(), 200, "Unsubscribed");
-            WebSocketMessageQueue.getInstance().queueMessage(event.getClient(), jsonMessage);
+            WebSocketMessageQueue.getInstance().queueMessage(event.getClient(), jsonMessage, null);
         } catch(InvalidMessageException e) {
             // Catch block left empty on purpose
             // This exception is already handled by the MessageCreator

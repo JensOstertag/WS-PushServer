@@ -18,7 +18,7 @@ public class ConnectHandler implements Listener {
             Client client = new Client(event.getWebSocket());
 
             String jsonMessage = MessageCreator.clientAck(client, 200, "Connected");
-            WebSocketMessageQueue.getInstance().queueMessage(client, jsonMessage);
+            WebSocketMessageQueue.getInstance().queueMessage(client, jsonMessage, null);
         } catch(NoUuidAvailableException e) {
             try {
                 String jsonMessage = MessageCreator.error(503, "No UUID available", null);

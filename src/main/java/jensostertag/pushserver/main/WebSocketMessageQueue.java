@@ -2,6 +2,7 @@ package jensostertag.pushserver.main;
 
 import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.objects.UnregisteredWebSocketMessage;
+import jensostertag.pushserver.objects.WebSocketChannel;
 import jensostertag.pushserver.objects.WebSocketMessage;
 import org.java_websocket.WebSocket;
 
@@ -45,6 +46,10 @@ public class WebSocketMessageQueue extends Thread {
         } else {
             Client client = message.getClient();
             webSocket = client.getWebSocket();
+
+            if(message.getWebSocketChannel() != null && !client.hasSubscribedToChannel(message.getWebSocketChannel())) {
+                return;
+            }
         }
 
         if(webSocket == null) {
@@ -62,7 +67,11 @@ public class WebSocketMessageQueue extends Thread {
         this._messageQueue.add(message);
     }
 
-    public void queueMessage(Client client, String message) {
-        this.queueMessage(new WebSocketMessage(client, message));
+    public void queueMessage(Client client, String message, WebSocketChannel webSocketChannel) {
+        this.queueMessage(new WebSocketMessage(client, message, webSocketChannel));
+    }
+
+    public boolean isReceivingMessage(Client client, String message) {
+        return this._messageQueue.stream().anyMatch(webSocketMessage -> webSocketMessage.getClient().equals(client) && webSocketMessage.getMessage().equals(message));
     }
 }

@@ -6,7 +6,7 @@ public class UnregisteredWebSocketMessage extends WebSocketMessage {
     private final WebSocket _webSocket;
 
     public UnregisteredWebSocketMessage(WebSocket webSocket, String message) {
-        super(null, message);
+        super(null, message, null);
         this._webSocket = webSocket;
     }
 
