@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
+import jensostertag.pushserver.data.DockerVariables;
 import jensostertag.pushserver.exceptions.InvalidMessageException;
 import jensostertag.pushserver.util.Logger;
 
@@ -15,19 +16,19 @@ import java.io.InputStream;
 
 public class MessageValidator {
     private static final String[][] SCHEMAS = {
-        {"ERROR",                      "src/resources/schema/error.schema.json"},
+        {"ERROR",                      DockerVariables.schemaBaseDirectory() + "error.schema.json"},
 
-        {"CLIENT_SUBSCRIBE_CHANNEL",   "src/resources/schema/client/subscribeChannel.schema.json"},
-        {"CLIENT_UNSUBSCRIBE_CHANNEL", "src/resources/schema/client/unsubscribeChannel.schema.json"},
-        {"CLIENT_ACK",                 "src/resources/schema/client/ack.schema.json"},
-        {"CLIENT_PUSH",                "src/resources/schema/client/push.schema.json"},
+        {"CLIENT_SUBSCRIBE_CHANNEL",   DockerVariables.schemaBaseDirectory() + "client/subscribeChannel.schema.json"},
+        {"CLIENT_UNSUBSCRIBE_CHANNEL", DockerVariables.schemaBaseDirectory() + "client/unsubscribeChannel.schema.json"},
+        {"CLIENT_ACK",                 DockerVariables.schemaBaseDirectory() + "client/ack.schema.json"},
+        {"CLIENT_PUSH",                DockerVariables.schemaBaseDirectory() + "client/push.schema.json"},
 
-        {"SERVER_CHANNEL_CREATE",      "src/resources/schema/server/createChannel.schema.json"},
-        {"SERVER_CHANNEL_DELETE",      "src/resources/schema/server/deleteChannel.schema.json"},
-        {"SERVER_CHANNEL_PING",        "src/resources/schema/server/pingChannel.schema.json"},
-        {"SERVER_PUSH_MESSAGE",        "src/resources/schema/server/pushMessage.schema.json"},
-        {"SERVER_ACK",                 "src/resources/schema/server/ack.schema.json"},
-        {"SERVER_SYSADMIN",            "src/resources/schema/server/sysadmin.schema.json"}
+        {"SERVER_CHANNEL_CREATE",      DockerVariables.schemaBaseDirectory() + "server/createChannel.schema.json"},
+        {"SERVER_CHANNEL_DELETE",      DockerVariables.schemaBaseDirectory() + "server/deleteChannel.schema.json"},
+        {"SERVER_CHANNEL_PING",        DockerVariables.schemaBaseDirectory() + "server/pingChannel.schema.json"},
+        {"SERVER_PUSH_MESSAGE",        DockerVariables.schemaBaseDirectory() + "server/pushMessage.schema.json"},
+        {"SERVER_ACK",                 DockerVariables.schemaBaseDirectory() + "server/ack.schema.json"},
+        {"SERVER_SYSADMIN",            DockerVariables.schemaBaseDirectory() + "server/sysadmin.schema.json"}
     };
 
     public static MessageType getMessageType(String jsonString) throws JsonProcessingException, InvalidMessageException {
