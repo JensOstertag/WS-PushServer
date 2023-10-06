@@ -1,3 +1,6 @@
+import jensostertag.pushserver.event.EventInitiator;
+import jensostertag.pushserver.event.websocket.ClientSubscribeEvent;
+import jensostertag.pushserver.event.websocket.ClientUnsubscribeEvent;
 import jensostertag.pushserver.exceptions.ClientNotFoundException;
 import jensostertag.pushserver.exceptions.NoUuidAvailableException;
 import jensostertag.pushserver.objects.Client;
@@ -11,6 +14,8 @@ public class ClientTest {
     @Test
     public void clientConnect() throws NoUuidAvailableException, ClientNotFoundException {
         TestSetup.testSetup();
+
+        Assert.assertThrows(ClientNotFoundException.class, () -> Client.getClient(UUID.randomUUID()));
 
         // Create a new Client object
         Client client = new Client(null);
@@ -27,14 +32,18 @@ public class ClientTest {
         Assert.assertFalse(client.getSubscribedChannels().contains(webSocketChannel));
 
         // Subscribe the client to the channel
-        client.subscribeToChannel(webSocketChannel);
+//        client.subscribeToChannel(webSocketChannel);
+        ClientSubscribeEvent subscribeEvent = new ClientSubscribeEvent(client, webSocketChannel);
+        EventInitiator.trigger(subscribeEvent);
 
         // Test whether the client is subscribed to the channel
         Assert.assertTrue(webSocketChannel.getClients().contains(client));
         Assert.assertTrue(client.getSubscribedChannels().contains(webSocketChannel));
 
         // Unsubscribe the client from the channel
-        client.unsubscribeFromChannel(webSocketChannel);
+//        client.unsubscribeFromChannel(webSocketChannel);
+        ClientUnsubscribeEvent unsubscribeEvent = new ClientUnsubscribeEvent(client, webSocketChannel);
+        EventInitiator.trigger(unsubscribeEvent);
 
         // Test whether the client isn't subscribed to the channel
         Assert.assertFalse(webSocketChannel.getClients().contains(client));

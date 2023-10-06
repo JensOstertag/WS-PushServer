@@ -10,7 +10,7 @@ import jensostertag.pushserver.protocol.MessageCreator;
 public class ClientUnsubscribeHandler implements Listener {
     @EventHandler
     public void onUnsubscribe(ClientUnsubscribeEvent event) {
-        event.getClient().subscribeToChannel(event.getWebSocketChannel());
+        event.getClient().unsubscribeFromChannel(event.getWebSocketChannel());
 
         try {
             String jsonMessage = MessageCreator.clientAck(event.getClient(), 200, "Unsubscribed");
