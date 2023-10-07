@@ -6,23 +6,26 @@ import org.testng.annotations.Test;
 
 public class WebSocketMessageQueueTest {
     @Test
+    @SuppressWarnings("deprecation")
     public void testMessageQueue() throws InterruptedException {
         Logger.setLogLevel(2);
 
         String messageContent = "message";
 
+        WebSocketMessageQueue messageQueue = new WebSocketMessageQueue();
+
         UnregisteredWebSocketMessage unregisteredWebSocketMessage = new UnregisteredWebSocketMessage(null, messageContent);
-        WebSocketMessageQueue.getInstance().queueMessage(unregisteredWebSocketMessage);
+        messageQueue.queueMessage(unregisteredWebSocketMessage);
 
-        Assert.assertTrue(WebSocketMessageQueue.getInstance().isReceivingMessage(null, messageContent));
+        Assert.assertTrue(messageQueue.isReceivingMessage(null, messageContent));
 
-        Assert.assertFalse(WebSocketMessageQueue.getInstance().isReceivingMessage(null, "wrongMessage"));
+        Assert.assertFalse(messageQueue.isReceivingMessage(null, "wrongMessage"));
 
-        WebSocketMessageQueue.getInstance().start();
+        messageQueue.start();
 
         // Wait for the message to be sent
         Thread.sleep(100);
 
-        Assert.assertFalse(WebSocketMessageQueue.getInstance().isReceivingMessage(null, messageContent));
+        Assert.assertFalse(messageQueue.isReceivingMessage(null, messageContent));
     }
 }

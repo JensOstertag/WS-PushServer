@@ -38,7 +38,11 @@ public class PushMessageHandler implements Listener {
         receivingClients.forEach(client -> {
             try {
                 String jsonMessage = MessageCreator.clientPush(client, 200, "Push Message", event.getWebSocketChannel().getName(), event.getMessage());
-                WebSocketMessageQueue.getInstance().queueMessage(client, jsonMessage, event.getWebSocketChannel());
+                if(event.getWebSocketMessageQueue() == null) {
+                    WebSocketMessageQueue.getInstance().queueMessage(client, jsonMessage, event.getWebSocketChannel());
+                } else if(WebSocketMessageQueue.getInstance() != null) {
+                    event.getWebSocketMessageQueue().queueMessage(client, jsonMessage, event.getWebSocketChannel());
+                }
             } catch(InvalidMessageException e) {
                 // Catch block left empty on purpose
                 // If the message is invalid, the client will not receive the message

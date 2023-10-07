@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 public class WebSocketChannelTest {
     @Test
     public void testChannel() throws WebSocketChannelNotFoundException, NoUuidAvailableException {
-        TestSetup.testSetup();
+        TestSetup ts = new TestSetup();
 
         // Test whether the channel doesn't exist
         Assert.assertThrows(WebSocketChannelNotFoundException.class, () -> WebSocketChannel.getWebSocketChannel("WebSocketChannelTest:testChannel"));

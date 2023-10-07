@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class WebSocketMessageQueue extends Thread {
-    private static final WebSocketMessageQueue INSTANCE = new WebSocketMessageQueue();
+    private static final WebSocketMessageQueue INSTANCE = new WebSocketMessageQueue(true);
 
     public static WebSocketMessageQueue getInstance() {
         return INSTANCE;
@@ -19,7 +19,12 @@ public class WebSocketMessageQueue extends Thread {
 
     private final Queue<WebSocketMessage> _messageQueue = new LinkedList<>();
 
-    private WebSocketMessageQueue() {
+    @Deprecated
+    public WebSocketMessageQueue() {
+
+    }
+
+    private WebSocketMessageQueue(boolean param) {
 
     }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ClientTest {
     @Test
     public void clientConnect() throws NoUuidAvailableException, ClientNotFoundException {
-        TestSetup.testSetup();
+        TestSetup ts = new TestSetup();
 
         Assert.assertThrows(ClientNotFoundException.class, () -> Client.getClient(UUID.randomUUID()));
 

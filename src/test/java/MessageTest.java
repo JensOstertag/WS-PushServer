@@ -16,8 +16,9 @@ import java.util.UUID;
 
 public class MessageTest {
     @Test
+    @SuppressWarnings("deprecation")
     public void sendToAllInChannel() throws NoUuidAvailableException, InvalidMessageException {
-        TestSetup.testSetup();
+        TestSetup ts = new TestSetup();
 
         // Create a new WebSocketChannel object
         WebSocketChannel webSocketChannel = new WebSocketChannel("MessageTest:sendToAllInChannel");
@@ -34,19 +35,21 @@ public class MessageTest {
         // Dispatch a PushMessageEvent
         String messageContent = "message";
         PushMessageEvent event = new PushMessageEvent(webSocketChannel, messageContent, recipients);
+        event.setWebSocketMessageQueue(ts.getMessageQueue());
         EventInitiator.trigger(event);
 
         // Test whether the WebSocketMessageQueue contains the message for all clients
         for(Client client : clients) {
             new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is receiving the message");
             String jsonMessage = MessageCreator.clientPush(client, 200, "Push Message", event.getWebSocketChannel().getName(), event.getMessage());
-            Assert.assertTrue(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
+            Assert.assertTrue(ts.getMessageQueue().isReceivingMessage(client, jsonMessage));
         }
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void sendToSpecificInChannel() throws NoUuidAvailableException, InvalidMessageException {
-        TestSetup.testSetup();
+        TestSetup ts = new TestSetup();
 
         // Create a new WebSocketChannel object
         WebSocketChannel webSocketChannel = new WebSocketChannel("MessageTest:sendToSpecificInChannel");
@@ -67,6 +70,7 @@ public class MessageTest {
         // Dispatch a PushMessageEvent
         String messageContent = "message";
         PushMessageEvent event = new PushMessageEvent(webSocketChannel, messageContent, recipients);
+        event.setWebSocketMessageQueue(ts.getMessageQueue());
         EventInitiator.trigger(event);
 
         // Test whether the WebSocketMessageQueue contains the message for the recipients
@@ -74,10 +78,10 @@ public class MessageTest {
             String jsonMessage = MessageCreator.clientPush(client, 200, "Push Message", event.getWebSocketChannel().getName(), event.getMessage());
             if(recipients.contains(client.getUuid())) {
                 new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is receiving the message");
-                Assert.assertTrue(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
+                Assert.assertTrue(ts.getMessageQueue().isReceivingMessage(client, jsonMessage));
             } else {
                 new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is not receiving the message");
-                Assert.assertFalse(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
+                Assert.assertFalse(ts.getMessageQueue().isReceivingMessage(client, jsonMessage));
             }
         }
     }
