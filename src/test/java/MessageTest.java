@@ -6,6 +6,7 @@ import jensostertag.pushserver.main.WebSocketMessageQueue;
 import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.objects.WebSocketChannel;
 import jensostertag.pushserver.protocol.MessageCreator;
+import jensostertag.pushserver.util.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -37,6 +38,7 @@ public class MessageTest {
 
         // Test whether the WebSocketMessageQueue contains the message for all clients
         for(Client client : clients) {
+            new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is receiving the message");
             String jsonMessage = MessageCreator.clientPush(client, 200, "Push Message", event.getWebSocketChannel().getName(), event.getMessage());
             Assert.assertTrue(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
         }
@@ -71,8 +73,10 @@ public class MessageTest {
         for(Client client : clients) {
             String jsonMessage = MessageCreator.clientPush(client, 200, "Push Message", event.getWebSocketChannel().getName(), event.getMessage());
             if(recipients.contains(client.getUuid())) {
+                new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is receiving the message");
                 Assert.assertTrue(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
             } else {
+                new Logger("MessageTest").debug("Testing whether client " + client.getUuid() + " is not receiving the message");
                 Assert.assertFalse(WebSocketMessageQueue.getInstance().isReceivingMessage(client, jsonMessage));
             }
         }

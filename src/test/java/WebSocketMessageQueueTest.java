@@ -1,11 +1,14 @@
 import jensostertag.pushserver.main.WebSocketMessageQueue;
 import jensostertag.pushserver.objects.UnregisteredWebSocketMessage;
+import jensostertag.pushserver.util.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class WebSocketMessageQueueTest {
     @Test
     public void testMessageQueue() throws InterruptedException {
+        Logger.setLogLevel(2);
+
         String messageContent = "message";
 
         UnregisteredWebSocketMessage unregisteredWebSocketMessage = new UnregisteredWebSocketMessage(null, messageContent);

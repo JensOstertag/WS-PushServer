@@ -9,7 +9,7 @@ public class Logger {
     }
 
     public void error(String message) {
-        if(Logger.LOG_LEVEL >= 1) {
+        if(Logger.LOG_LEVEL >= 0) {
             System.out.println(Color.GRAY + "(" + Color.RED + "ERROR" + Color.GRAY + ") [" + Color.YELLOW + this.tag + Color.GRAY + "] " + Color.RED + message + Color.RESET);
         }
     }

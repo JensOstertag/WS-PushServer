@@ -4,6 +4,7 @@ import jensostertag.pushserver.objects.Client;
 import jensostertag.pushserver.objects.UnregisteredWebSocketMessage;
 import jensostertag.pushserver.objects.WebSocketChannel;
 import jensostertag.pushserver.objects.WebSocketMessage;
+import jensostertag.pushserver.util.Logger;
 import org.java_websocket.WebSocket;
 
 import java.util.LinkedList;
@@ -72,6 +73,9 @@ public class WebSocketMessageQueue extends Thread {
     }
 
     public boolean isReceivingMessage(Client client, String message) {
+        new Logger("WebSocketMessageQueue").debug("Pending WebSocketMessages for client " + (client != null ? client.getUuid() : "null"));
+        this._messageQueue.stream().filter(webSocketMessage -> webSocketMessage.getClient() == client).forEach(webSocketMessage -> new Logger("WebSocketMessageQueue").debug(webSocketMessage.getMessage()));
+        new Logger("WebSocketMessageQueue").debug("End of pending WebSocketMessages for client " + (client != null ? client.getUuid() : "null"));
         return this._messageQueue.stream().anyMatch(webSocketMessage -> webSocketMessage.getClient() == client && webSocketMessage.getMessage().equals(message));
     }
 }
