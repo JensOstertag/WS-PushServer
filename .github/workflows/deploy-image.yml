@@ -22,7 +22,7 @@ jobs:
         id: lowercase-repo-owner
         shell: pwsh
         run: |
-          "::set-output name=owner::$($env.GITHUB_REPOSITORY.ToLowerInvariant())
+          "::set-output name=owner::$($env:GITHUB_REPOSITORY.ToLowerInvariant())"
 
       - name: "Build and deploy image"
         run: |
