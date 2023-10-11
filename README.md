@@ -44,3 +44,4 @@ This project uses the following dependencies:
   - **docker/login-action** v1 - GitHub: [docker/login-action](https://github.com/docker/login-action), licensed under [Apache License 2.0](https://github.com/docker/login-action/blob/master/LICENSE)
 
 <h2 id="license">License</h2>
+This project is licensed under the [MIT License](./LICENSE).
