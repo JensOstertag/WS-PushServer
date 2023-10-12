@@ -23,6 +23,29 @@ It allows HTTP clients to create channels and send push messages to WebSocket cl
 
 <h2 id="introduction">Introduction</h2>
 
+### Push architecture
+A push architecture is used in applications in which the server has to send messages / data to the client without the client having to request it.
+This is particularly useful for applications that require real-time data, such as chat applications or stock market applications.
+
+However, it is difficult to achieve this with HTTP for web applications as it is primarily a request-response protocol.
+
+### WebSockets
+WebSocket connections are a solution to this problem.
+They allow a persistent connection between client and server, which can be used to send messages in both directions.
+
+### Push-Server
+This project implements a Push-Server that uses WebSockets to create a push architecture that can be used for an unlimited amount of projects.
+
+HTTP clients - let's call them publishers - can create channels where they can later send messages in.
+One channel should only be used for one project, so that the messages are only sent to the clients of this project.
+
+WebSocket clients - also called subscribers - can subscribe (or unsubscribe) to (from) an unlimited amount of channels once they've established a WebSocket connection.
+They'll receive all messages that are sent to the channels they're subscribed to - and only those.
+Publishers can also address a message to a specific list of subscribers.
+Only those subscribers will receive the message - and only if they've subscribed to the channel.
+
+For further information on how to use the Push-Server, see [Usage](#usage).
+
 <h2 id="setup">Setup</h2>
 
 <h2 id="usage">Usage</h2>
