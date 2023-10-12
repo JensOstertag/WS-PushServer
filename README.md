@@ -50,6 +50,74 @@ For further information on how to use the Push-Server, see [Usage](#usage).
 
 <h2 id="usage">Usage</h2>
 
+For the following examples, the server should be reachable on `localhost`, the WebSocket service should be available on port `5222` and the HTTP service should be available on port `5223`.
+You can change these ports when starting the docker container, in which case you have to adjust the parameters that are used in the examples below.
+
+### Publishers
+Publishers can create channels and send messages to the subscribers of these channels.
+
+<details>
+<summary><strong>Create channels</strong></summary>
+
+To create a channel, send a `POST` request to the route `/channel/create`:
+```http
+POST /channel/create HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "CREATE_CHANNEL",
+  "data": {
+    "channel": "channelName"
+  }
+}
+```
+
+Adjust the fields listed below to your needs:
+
+| Field          | Description                                     |
+|----------------|-------------------------------------------------|
+| `data.channel` | The name of the channel that you want to create |
+
+You'll receive a JSON response when the channel was created successfully:
+```json
+{
+  "messageType": "SERVER_ACK",
+  "code": 200,
+  "message": "Created",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "CHANNEL_TOKEN"
+  }
+}
+```
+
+| Field               | Description                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| `data.channel`      | The name of the channel that was created                                    |
+| `data.channelToken` | The token that has to be used to send messages to the channel's subscribers |
+
+The channel token needs to be saved in a secure place.
+You'll need it every time you want to perform an action on the channel, such as sending a message to its subscribers.
+
+If there was an error whilst creating the channel, you'll receive the following response:
+```json
+{
+  "messageType": "ERROR",
+  "code": 409,
+  "message": "Message",
+  "data": {
+    "errorDetails": "Details"
+  }
+}
+```
+
+| Field               | Description                           |
+|---------------------|---------------------------------------|
+| `message`           | Short description of what happened    |
+| `data.errorDetails` | Details about the error that occurred |
+</details>
+
 <h2 id="dependencies">Dependencies</h2>
 This project uses the following dependencies:
 
