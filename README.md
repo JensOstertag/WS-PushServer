@@ -59,7 +59,7 @@ Publishers can create channels and send messages to the subscribers of these cha
 <details>
 <summary><strong>Create channels</strong></summary>
 
-To create a channel, send a `POST` request to the route `/channel/create`:
+You can create a channel by sending a `POST` request to the `/channel/create` route:
 ```http
 POST /channel/create HTTP/1.1
 Host: localhost:5223
@@ -73,11 +73,12 @@ Host: localhost:5223
 }
 ```
 
-Adjust the fields listed below to your needs:
-
 | Field          | Description                                     |
 |----------------|-------------------------------------------------|
 | `data.channel` | The name of the channel that you want to create |
+
+<details>
+<summary>Response - Success</summary>
 
 You'll receive a JSON response when the channel was created successfully:
 ```json
@@ -99,6 +100,10 @@ You'll receive a JSON response when the channel was created successfully:
 
 The channel token needs to be saved in a secure place.
 You'll need it every time you want to perform an action on the channel, such as sending a message to its subscribers.
+</details>
+
+<details>
+<summary>Response - Error</summary>
 
 If there was an error whilst creating the channel, you'll receive the following response:
 ```json
@@ -116,6 +121,75 @@ If there was an error whilst creating the channel, you'll receive the following 
 |---------------------|---------------------------------------|
 | `message`           | Short description of what happened    |
 | `data.errorDetails` | Details about the error that occurred |
+</details>
+</details>
+
+<details>
+<summary><strong>Ping channels</strong></summary>
+
+Channels can be pinged to check whether they exist or to get information about it.
+
+```http
+POST /channel/ping HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "PING_CHANNEL",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "CHANNEL_TOKEN"
+  }
+}
+```
+
+| Field               | Description                                                                     |
+|---------------------|---------------------------------------------------------------------------------|
+| `data.channel`      | The name of the channel that you want to ping                                   |
+| `data.channelToken` | The channel token or `null` if you only want to know whether the channel exists |
+
+<details>
+<summary>Response - Success</summary>
+
+If the channel exists and the specified channel token is correct, you'll receive a response which looks like this:
+```json
+{
+  "messageType": "SERVER_ACK",
+  "code": 200,
+  "message": "OK",
+  "data": {
+    "channel": "channelName",
+    "channelToken": null
+  }
+}
+```
+
+| Field               | Description                                                      |
+|---------------------|------------------------------------------------------------------|
+| `data.channel`      | The name of the channel that was pinged                          |
+| `data.channelToken` | Always `null` (it's only present to comply with the JSON schema) |
+</details>
+
+<details>
+<summary>Response - Error</summary>
+
+If there was an error whilst pinging the channel, the response will look like this:
+```json
+{
+  "messageType": "ERROR",
+  "code": XXX,
+  "message": "Message",
+  "data": {
+    "errorDetails": "Details"
+  }
+}
+```
+
+| Field               | Description                           |
+|---------------------|---------------------------------------|
+| `message`           | Short description of what happened    |
+| `data.errorDetails` | Details about the error that occurred |
+</details>
 </details>
 
 <h2 id="dependencies">Dependencies</h2>
