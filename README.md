@@ -192,6 +192,50 @@ If there was an error whilst pinging the channel, the response will look like th
 </details>
 </details>
 
+<details>
+<summary><strong>Send messages</strong></summary>
+
+Messages can be sent to all subscribers of a channel or to a list of specific subscribers.
+    
+```http
+POST /push HTTP/1.1
+Host: localhost:5223
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "PUSH_MESSAGE",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "channelToken",
+    "recipients": [],
+    "message": "message"
+  }
+}
+```
+
+| Field               | Description                                                                                                                                          |
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `data.channel`      | The name of the channel that you want to send the message in                                                                                         |
+| `data.channelToken` | The channel token that you received when creating the channel                                                                                        |
+| `data.recipients`   | A list of UUIDs of recipients that should receive the message <br> If this list is empty, the message will be sent to all subscribers of the channel |
+| `data.message`      | The message that should be sent                                                                                                                      |
+
+The recipients can be specified in order to create a private messaging system.
+As this requires specification of the client's UUID, clients have to send an API call (or something comparable) to the backend of your application with their UUID upon subscribing to a channel.
+
+<details>
+<summary>Response - Success</summary>
+
+TODO
+</details>
+
+<details>
+<summary>Response - Error</summary>
+
+TODO
+</details>
+</details>
+
 <h2 id="dependencies">Dependencies</h2>
 This project uses the following dependencies:
 
