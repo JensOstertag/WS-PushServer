@@ -231,7 +231,7 @@ In case of a successful message push, you'll receive the following response:
 {
   "messageType": "SERVER_ACK",
   "code": 200,
-  "message": "OK",
+  "message": "Sent",
   "data": {
     "channel": "channelName",
     "channelToken": null
