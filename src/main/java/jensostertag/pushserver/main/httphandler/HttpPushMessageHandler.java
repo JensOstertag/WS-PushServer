@@ -73,7 +73,7 @@ public class HttpPushMessageHandler implements HttpHandler {
                     PushMessageEvent event = new PushMessageEvent(webSocketChannel, message, recipients);
                     EventInitiator.trigger(event);
 
-                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "Deleted");
+                    response = MessageCreator.serverAck(webSocketChannel, false, 200, "Sent");
                     responseCode = 200;
                 }
             }

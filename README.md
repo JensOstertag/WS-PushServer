@@ -226,13 +226,44 @@ As this requires specification of the client's UUID, clients have to send an API
 <details>
 <summary>Response - Success</summary>
 
-TODO
+In case of a successful message push, you'll receive the following response:
+```json
+{
+  "messageType": "SERVER_ACK",
+  "code": 200,
+  "message": "OK",
+  "data": {
+    "channel": "channelName",
+    "channelToken": null
+  }
+}
+```
+
+| Field               | Description                                                      |
+|---------------------|------------------------------------------------------------------|
+| `data.channel`      | The name of the channel in which the message was sent            |
+| `data.channelToken` | Always `null` (it's only present to comply with the JSON schema) |
 </details>
 
 <details>
 <summary>Response - Error</summary>
 
-TODO
+If there was an error whilst sending the message, the response will look like this:
+```json
+{
+  "messageType": "ERROR",
+  "code": XXX,
+  "message": "Message",
+  "data": {
+    "errorDetails": "Details"
+  }
+}
+```
+
+| Field               | Description                           |
+|---------------------|---------------------------------------|
+| `message`           | Short description of what happened    |
+| `data.errorDetails` | Details about the error that occurred |
 </details>
 </details>
 
