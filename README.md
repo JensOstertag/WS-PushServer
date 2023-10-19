@@ -177,7 +177,7 @@ If there was an error whilst pinging the channel, the response will look like th
 ```json
 {
   "messageType": "ERROR",
-  "code": XXX,
+  "code": 0,
   "message": "Message",
   "data": {
     "errorDetails": "Details"
@@ -252,7 +252,7 @@ If there was an error whilst sending the message, the response will look like th
 ```json
 {
   "messageType": "ERROR",
-  "code": XXX,
+  "code": 0,
   "message": "Message",
   "data": {
     "errorDetails": "Details"
