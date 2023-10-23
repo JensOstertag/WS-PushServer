@@ -267,6 +267,73 @@ If there was an error whilst sending the message, the response will look like th
 </details>
 </details>
 
+<details>
+<summary><strong>Delete channels</strong></summary>
+
+It's a good practice to delete channels that are no longer in use.
+This can be done by sending a `POST` request to the `/channel/delete` route:
+```http
+POST /channel/delete HTTP/1.1
+
+{
+  "messageType": "SERVER_ACTION",
+  "action": "DELETE_CHANNEL",
+  "data": {
+    "channel": "channelName",
+    "channelToken": "channelToken"
+  }
+}
+```
+
+| Field               | Description                                                   |
+|---------------------|---------------------------------------------------------------|
+| `data.channel`      | The name of the channel that you want to delete               |
+| `data.channelToken` | The channel token that you received when creating the channel |
+
+<details>
+<summary>Response - Success</summary>
+
+If the channel was deleted successfully, you'll receive the following response:
+```json
+{
+  "messageType": "SERVER_ACK",
+  "code": 200,
+  "message": "Deleted",
+  "data": {
+    "channel": "channelName",
+    "channelToken": null
+  }
+}
+```
+
+| Field               | Description                                                      |
+|---------------------|------------------------------------------------------------------|
+| `data.channel`      | The name of the channel that was deleted                         |
+| `data.channelToken` | Always `null` (it's only present to comply with the JSON schema) |
+</details>
+
+<details>
+<summary>Response - Error</summary>
+
+If there was an error whilst deleting the channel, the response will look like this:
+```json
+{
+  "messageType": "ERROR",
+  "code": 0,
+  "message": "Message",
+  "data": {
+    "errorDetails": "Details"
+  }
+}
+```
+
+| Field               | Description                           |
+|---------------------|---------------------------------------|
+| `message`           | Short description of what happened    |
+| `data.errorDetails` | Details about the error that occurred |
+</details>
+</details>
+
 <h2 id="dependencies">Dependencies</h2>
 This project uses the following dependencies:
 
