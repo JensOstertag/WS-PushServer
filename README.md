@@ -334,6 +334,33 @@ If there was an error whilst deleting the channel, the response will look like t
 </details>
 </details>
 
+### Subscribers
+Subscribers can subscribe to channels and receive messages that are sent to these channels.
+
+<details>
+<summary><strong>Connection</strong></summary>
+
+To connect to the Push-Server, a client has to establish a WebSocket connection to `ws://localhost:5222`.
+</details>
+
+<details>
+<summary><strong>Subscribing to channels</strong></summary>
+
+TODO
+</details>
+
+<details>
+<summary><strong>Unsubscribing from channels</strong></summary>
+
+TODO
+</details>
+
+<details>
+<summary><strong>Receiving messages</strong></summary>
+
+TODO
+</details>
+
 <h2 id="dependencies">Dependencies</h2>
 This project uses the following dependencies:
 
