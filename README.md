@@ -415,6 +415,7 @@ TODO
 
 TODO
 </details>
+</details>
 
 <h2 id="dependencies">Dependencies</h2>
 This project uses the following dependencies:
