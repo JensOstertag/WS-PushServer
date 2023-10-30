@@ -1,0 +1,8 @@
+version: "3"
+services:
+  pushserver:
+    image: ghcr.io/jensostertag/pushserver:latest
+    ports:
+      - "5222:5222"
+      - "5223:5223"
+    restart: "unless-stopped"
