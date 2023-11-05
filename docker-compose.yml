@@ -2,6 +2,8 @@ version: "3"
 services:
   pushserver:
     image: ghcr.io/jensostertag/pushserver:latest
+    environment:
+      - DOCKER=true
     ports:
       - "5222:5222"
       - "5223:5223"
