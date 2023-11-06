@@ -4,6 +4,8 @@ services:
     image: ghcr.io/jensostertag/pushserver:latest
     environment:
       - DOCKER=true
+      - PORT_WS=5222
+      - PORT_HTTP=5223
     ports:
       - "5222:5222"
       - "5223:5223"

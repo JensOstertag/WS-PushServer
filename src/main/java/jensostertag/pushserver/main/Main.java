@@ -1,6 +1,6 @@
 package jensostertag.pushserver.main;
 
-import jensostertag.pushserver.data.Config;
+import jensostertag.pushserver.data.DockerVariables;
 import jensostertag.pushserver.event.EventInitiator;
 import jensostertag.pushserver.eventhandler.*;
 
@@ -17,11 +17,11 @@ public class Main {
         EventInitiator.registerListener(new PushMessageHandler());
 
         // Start HTTP server
-        HttpServer httpServer = new HttpServer(new InetSocketAddress("0.0.0.0", Config.PORT_S2S));
+        HttpServer httpServer = new HttpServer(new InetSocketAddress("0.0.0.0", DockerVariables.getPortHttp()));
         httpServer.start();
 
         // Start WebSocket server
-        WebSocketServer webSocketServer = new WebSocketServer(new InetSocketAddress("0.0.0.0", Config.PORT_C2S));
+        WebSocketServer webSocketServer = new WebSocketServer(new InetSocketAddress("0.0.0.0", DockerVariables.getPortWs()));
         webSocketServer.run();
     }
 }

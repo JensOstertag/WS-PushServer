@@ -25,4 +25,20 @@ public class DockerVariables {
 
         return "src/resources/schema/";
     }
+
+    public static int getPortWs() {
+        if(!DockerVariables.isDocker()) {
+            return 5223;
+        }
+
+        return Integer.parseInt(System.getenv("PORT_WS"));
+    }
+
+    public static int getPortHttp() {
+        if(!DockerVariables.isDocker()) {
+            return 5222;
+        }
+
+        return Integer.parseInt(System.getenv("PORT_HTTP"));
+    }
 }
