@@ -48,6 +48,22 @@ For further information on how to use the Push-Server, see [Usage](#usage).
 
 <h2 id="setup">Setup</h2>
 
+This project is dockerized so you can easily run it in a container.
+It's recommended to use the pre-built image from the [GitHub container registry](https://ghcr.io/jensostertag/pushserver) - however you are also free to build the image yourself.
+Please follow the instructions below to get started.
+
+1. Clone the repository on the target environment
+   ```sh
+   git clone https://github.com/JensOstertag/WS-PushServer.git pushserver
+   ```
+2. Configure the `docker-compose.yml` file
+   - Change the ports if you want to use different ones from `5222` and `5223`
+   - Àdd a custom network mode (depending on your existing setup)
+3. Start the container with docker compose
+   ```sh
+   docker compose up -d
+   ```
+
 <h2 id="usage">Usage</h2>
 
 For the following examples, the server should be reachable on `localhost`, the WebSocket service should be available on port `5222` and the HTTP service should be available on port `5223`.
