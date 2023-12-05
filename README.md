@@ -465,7 +465,31 @@ If the client unsubscribed from the channel successfully, the client will receiv
 <details>
 <summary><strong>Receiving messages</strong></summary>
 
-TODO
+Messages are sent to the client in JSON format:
+```json
+{
+  "messageType": "CLIENT_PUSH",
+  "code": 200,
+  "message": "Push Message",
+  "data": {
+    "uuid": "clientUuid",
+    "subscribedChannels": [
+      "channelName"
+    ],
+    "pushMessage": {
+      "channel": "channelName",
+      "message": "Message"
+    }
+  }
+}
+```
+
+| Field                      | Description                                           |
+|----------------------------|-------------------------------------------------------|
+| `data.uuid`                | The client's UUID                                     |
+| `data.subscribedChannels`  | The list of channels that the client is subscribed to |
+| `data.pushMessage.channel` | The name of the channel that the message was sent on  |
+| `data.pushMessage.message` | The raw message that was sent on the channel          |
 </details>
 
 <h2 id="dependencies">Dependencies</h2>
