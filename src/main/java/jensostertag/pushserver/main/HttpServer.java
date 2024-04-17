@@ -30,6 +30,7 @@ public class HttpServer extends Thread {
             httpServer.createContext("/channel/create", new HttpChannelCreate());
             httpServer.createContext("/channel/delete", new HttpChannelDelete());
             httpServer.createContext("/push", new HttpPushMessageHandler());
+            httpServer.createContext("/js/pushserver.js", new HttpJsScript());
 
             httpServer.start();
         } catch(IOException e) {

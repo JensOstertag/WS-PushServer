@@ -26,6 +26,14 @@ public class DockerVariables {
         return "src/resources/schema/";
     }
 
+    public static String scriptsBaseDirectory() {
+        if(DockerVariables.isDocker()) {
+            return "/app/scripts/";
+        }
+
+        return "src/resources/scripts/";
+    }
+
     public static int getPortWs() {
         if(!DockerVariables.isDocker()) {
             return 5223;

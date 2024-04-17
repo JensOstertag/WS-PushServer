@@ -21,6 +21,7 @@ COPY --from=builder /app/target/pushserver-1.0.0-jar-with-dependencies.jar /app/
 
 # Move schema files to the container
 COPY src/resources/schema /app/schema
+COPY src/resources/scripts /app/scripts
 
 # Port Argument
 EXPOSE 5222
