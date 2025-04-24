@@ -54,7 +54,7 @@ public class EventInitiator {
             try {
                 method.invoke(listenerObject, event);
             } catch(Exception e) {
-                new Logger("EventInitiator").error("Failed to trigger event " + event.getClass().getName() + " for method " + method.getName() + " in class " + method.getDeclaringClass().getName() + ": " + e.getMessage());
+                new Logger("EventInitiator").error("Failed to trigger event " + event.getClass().getName() + " for method " + method.getName() + " in class " + method.getDeclaringClass().getName() + ": " + e.getMessage() + " (" + e.getClass().getName() + ")");
             }
         }
     }

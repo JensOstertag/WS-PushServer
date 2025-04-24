@@ -9,39 +9,41 @@ class PushServer {
 
     subscribe(channelName, callback) {
         if(!this.CONNECTION_STATUS) {
-            throw new Error('The connection to the server is not established yet or has been closed.');
+            throw new Error("The connection to the server is not established yet or has been closed.");
         }
 
         this.MESSAGE_HANDLERS[channelName] = callback;
 
         this.WS_CONNECTION.send(JSON.stringify({
             messageType: "CLIENT_ACTION",
+            // TODO: Add UUID
             action: "SUBSCRIBE",
-            "data": {
-                "channel": channelName
+            data: {
+                channel: channelName
             }
         }));
     }
 
     unsubscribe(channelName) {
         if(!this.CONNECTION_STATUS) {
-            throw new Error('The connection to the server is not established yet or has been closed.');
+            throw new Error("The connection to the server is not established yet or has been closed.");
         }
 
         delete this.MESSAGE_HANDLERS[channelName];
 
         this.WS_CONNECTION.send(JSON.stringify({
             messageType: "CLIENT_ACTION",
+            // TODO: Add UUID
             action: "UNSUBSCRIBE",
-            "data": {
-                "channel": channelName
+            data: {
+                channel: channelName
             }
         }));
     }
 
     disconnect() {
         if(!this.CONNECTION_STATUS) {
-            throw new Error('The connection to the server is not established yet or has been closed.');
+            throw new Error("The connection to the server is not established yet or has been closed.");
         }
 
         this.WS_CONNECTION.close();
